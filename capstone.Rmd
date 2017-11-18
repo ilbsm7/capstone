@@ -20,6 +20,10 @@ install.packages("knitr")
 install.packages("broom")
 install.packages("survey")
 install.packages("ResourceSelection")
+install.packages("expm")
+install.packages("markovchain")
+install.packages("diagram")
+install.packages("pracma")
 ```
 
 ```{r}
@@ -34,6 +38,10 @@ library(knitr)
 library(survey)
 library(MASS)
 library(ResourceSelection)
+library(expm)
+library(markovchain)
+library(diagram)
+library(pracma)
 ```
 
 ### Raw data
@@ -653,4 +661,24 @@ data<-cbind(data_temp,data_team)
 ```{r}
 team_model<-glm(W~OPS,data=data_team)
 summary(team_model)
+```
+
+```{r}
+winp<-rbinom(10000, size=162, prob=0.561)
+qplot(winp, geom="histogram",
+      binwidth=1,
+      main = "Win distribution", 
+      xlab = "Win",  
+      fill=I("orange"), 
+      col=I("black"), 
+      alpha=I(.2),
+      xlim=c(60,125))
+```
+
+```{r}
+stateNames <- c("Win","Lose")
+Oz <- matrix(c(.561,.561,0.439,0.439),
+             nrow=2, byrow=TRUE)
+row.names(Oz) <- stateNames; colnames(Oz) <- stateNames
+Oz
 ```
